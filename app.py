@@ -4,9 +4,14 @@ import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from string import punctuation
 from heapq import nlargest
+import spacy.cli
 
-# Load the NLP model globally
-nlp = spacy.load('en_core_web_sm')
+# Ensure the Spacy model is available
+try:
+    nlp = spacy.load('en_core_web_sm')
+except OSError:
+    spacy.cli.download('en_core_web_sm')
+    nlp = spacy.load('en_core_web_sm')
 
 app = Flask(__name__)
 CORS(app)
